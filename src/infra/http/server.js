@@ -4,6 +4,7 @@ import express from 'express';
 
 import { variables } from '../../shared/config/variables/index.js';
 import { routes } from './routes/index.js';
+import { logger } from '../logger/pinnoLogger.js';
 
 export class HttpServer {
   app;
@@ -34,10 +35,10 @@ export class HttpServer {
     this.setRoutes();
     this.app.listen(this.port, (error) => {
       if (error) {
-        console.error(error);
+        logger.error(error);
         process.exit(1);
       }
-      console.log(`Listening on port: ${this.port}`);
+      logger.info(`Listening on port: ${this.port}`);
     });
   }
 }

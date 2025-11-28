@@ -11,6 +11,11 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Listening on port: ${process.env.PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, (error) => {
+  if (error) {
+    console.error(error);
+    process.exit(1);
+  }
+  console.log(`Listening on port: ${port}`);
 });

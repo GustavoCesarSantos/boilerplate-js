@@ -1,21 +1,7 @@
 import 'dotenv/config';
-import cors from 'cors';
-import helmet from 'helmet';
-import express from 'express';
 
-const app = express();
-app.use(cors());
-app.use(helmet());
+import { HttpServer } from './infra/http/server.js';
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const httpServer = new HttpServer();
 
-const port = process.env.PORT || 3000;
-app.listen(port, (error) => {
-  if (error) {
-    console.error(error);
-    process.exit(1);
-  }
-  console.log(`Listening on port: ${port}`);
-});
+httpServer.start();

@@ -5,6 +5,7 @@ import express from 'express';
 import { variables } from '../../shared/config/variables/index.js';
 import { routes } from './routes/index.js';
 import { logger } from '../logger/pinnoLogger.js';
+import { RequestLoggerMiddleware } from './middlewares/requestLogger.js';
 
 export class HttpServer {
   app;
@@ -21,17 +22,14 @@ export class HttpServer {
     this.app.use(helmet());
   }
 
-  setMiddlewares() {
-    this.setCors();
-    this.setHelmet();
-  }
-
   setRoutes() {
-    this.app.use('/v1', routes());
+    const requestLogger = new RequestLoggerMiddleware();
+    this.app.use('/v1', requestLogger.log, routes());
   }
 
   start() {
-    this.setMiddlewares();
+    this.setCors();
+    this.setHelmet();
     this.setRoutes();
     this.app.listen(this.port, (error) => {
       if (error) {
